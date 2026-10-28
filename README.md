@@ -1,28 +1,31 @@
 # BELL ($BELL) – "Paid at the opening bell."
 
-Statisk sajt: `index.html`, `styles.css`, `app.js`, `config.js` och lokala Geist-typsnitt. Ingen build behövs.
+Statisk sajt utan bygge: `index.html`, `styles.css`, `app.js`, `config.js`, `assets/` och `fonts/`. Dra mappen till Vercel eller importera repot.
 
 ## Vid launch
 Öppna `config.js` och fyll i:
-- `ca` – contract address (CA-pillret i menyn syns först när det finns)
+- `ca` – contract address (CA-knappen i menyn syns först när den finns)
 - `buyUrl` – länken till coinen på StonkFun
 - `xUrl` – X-kontot
 
-## Vad som är riktigt och vad som är simulerat
-- **Riktigt:** nedräkningen till NYSE-öppning 09:30 New York (sommartid och börsens helgdagar inräknade), 24h-urtavlan, besökarens lokala tid, aktiepriserna och 24h-rörelsen på tavlan (xStocks via Jupiter, med DexScreener som reserv), vilken aktie som leder, samt kalkylatorn.
-- **Simulerat:** potten, avgiftsflödet och utdelningen. Det står "Simulated pot on live stock prices." under urtavlan. Sätt `simulate: false` när riktig on-chain-data kopplas in.
-- Knappen "Ring the bell" spelar upp en demo av utdelningen. Klockan ringer automatiskt på riktigt 09:30 New York om sidan är öppen.
+## Din backend
+Sätt `potEndpoint` i `config.js` till din adress. Sajten läser den var 15:e sekund och slutar då simulera potten (etiketten "Simulated" försvinner).
+Svaret ska vara JSON: `{ "pot": 412.55 }`, alltså potten i USD.
 
-## Priser
-1. Jupiter Tokens API v2 (`/tokens/v2/search`) hittar varje xStock och dess mint. Mintarna sparas i webbläsaren i 24 h.
-2. Jupiter Price API v3 uppdaterar priserna var 30:e sekund (keyless, först `api.jup.ag`, sedan `lite-api.jup.ag`).
-3. Svarar inte Jupiter används DexScreener. Svarar ingen visas referenspriser, och det står tydligt på sidan.
+## Vad som är riktigt och vad som är simulerat
+- **Riktigt:** nedräkningen till NYSE:s öppning 09:30 New York (sommartid och börsens helgdagar inräknade), kalendern, besökarens lokala tid, tavlan med 10 xStocks (priser via Jupiter, DexScreener som reserv), ledaren och kalkylatorn.
+- **Simulerat tills backenden är kopplad:** potten.
+- **Förklaring, inte data:** urtavlan som spelar upp en dag när man scrollar.
+- "Ring the bell" är en demo. Klockan ringer också av sig själv 09:30 New York om sidan är öppen. Ljud spelas bara efter att besökaren tryckt på knappen.
+
+## 3D-klockan
+- `assets/bell-scene.js` är live-klockan (three.js, pendelfysik, kläpp som slår). Den byggs från `src/bell-scene.js`:
+  `npx esbuild src/bell-scene.js --bundle --minify --format=esm --outfile=assets/bell-scene.js` (kräver `npm i three esbuild`).
+- Klarar inte webbläsaren WebGL, eller har besökaren valt reducerad rörelse, visas stillbilden `assets/bell-frame.png` i stället.
+- Loggan och faviconen är coin-bilden (`assets/bell-mark.png`, `assets/favicon-64.png`).
 
 ## Underhåll
 - `holidays` i `config.js` täcker 2026–2027. Lägg till 2028 nästa höst.
 - Aktierna på tavlan ändras i `board` i `config.js`.
-
-## Deploy
-Dra mappen till Vercel eller pusha till GitHub och importera. Inga miljövariabler.
 
 Typsnitt: Geist och Geist Mono (SIL Open Font License, se `fonts/LICENSE-Geist.txt`).

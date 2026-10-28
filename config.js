@@ -37,15 +37,17 @@ window.BELL = {
     ["MSTRx", "Strategy"]
   ],
 
-  // Simuleringen av potten och avgiftsflödet. Sätt simulate: false när
-  // riktig on-chain-data kopplas in (då visas inte "Simulated"-texten).
+  // Din backend. När den finns: lägg in adressen här, så läser sajten den
+  // riktiga potten var 15:e sekund och slutar simulera.
+  // Svaret ska vara JSON: { "pot": 412.55 }  (potten i USD)
+  // Valfritt: "lastBell": { "stock": "NVDAx", "amount": 1.94, "holders": 1312, "tx": "https://solscan.io/tx/..." }
+  potEndpoint: "",
+
+  // Simulerad pott tills backenden är kopplad. Visas med en liten "Simulated"-etikett.
   simulate: true,
   sim: {
     potPerHour: 64,        // ungefär hur fort potten växer, i USD per timme
-    holders: 1312,         // antal holders som visas i utdelningen
-    feeEveryMs: [1800, 4800],
-    feeSol: [0.0009, 0.0092],
-    solFallback: 190       // används bara om SOL-priset inte går att hämta
+    holders: 1312          // används i demo-ringningen
   },
 
   // Visas bara om livepriserna inte går att hämta.
