@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bell | Paid at the opening bell</title>
+  <meta name="description" content="Every trade on $BELL drops a fee into one pot. When Wall Street opens, the pot buys the stock leading the board and sends it to every holder.">
+  <meta name="theme-color" content="#081014">
+  <meta property="og:title" content="Bell | Paid at the opening bell">
+  <meta property="og:description" content="One pot. One bell. Every weekday at 09:30 New York time, holders get paid in tokenized stock.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/Geist.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="bell-fill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#8fc6dc" stop-opacity=".38"/>
+        <stop offset="1" stop-color="#8fc6dc" stop-opacity=".04"/>
+      </linearGradient>
+      <symbol id="bell" viewBox="0 0 32 32">
+        <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="16" cy="5.2" r="1.4"/>
+          <path d="M9 22.6c1.4-1.2 1.6-3.4 1.9-7 .3-4 2.4-6.7 5.1-6.7s4.8 2.7 5.1 6.7c.3 3.6.5 5.8 1.9 7Z" fill="url(#bell-fill)"/>
+          <path d="M13.3 12.6c.4-1.5 1.2-2.4 2.1-2.7" stroke-opacity=".55" stroke-width="1.2"/>
+          <path d="M7.6 22.7h16.8"/>
+        </g>
+        <circle class="clapper" cx="16" cy="25.6" r="1.5" fill="currentColor"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="nav">
+    <div class="nav-in">
+      <a class="brand" href="#top" aria-label="Bell, back to top">
+        <span class="mark"><svg><use href="#bell"/></svg></span>
+        <span class="brand-name">Bell</span>
+      </a>
+      <nav class="links" aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#board">Board</a>
+        <a href="#cut">Your cut</a>
+        <a href="#rules">Rules</a>
+      </nav>
+      <div class="actions">
+        <button class="ca" id="ca" type="button" hidden>
+          <span class="ca-dot"></span>
+          <span class="ca-ticker">$BELL</span>
+          <span class="ca-addr" id="ca-addr"></span>
+          <svg class="ca-copy" viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="8.5" height="8.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M3 10.5V4a1.5 1.5 0 0 1 1.5-1.5H11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <a class="icon-btn" id="x-link" href="#" target="_blank" rel="noopener" aria-label="Bell on X" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a class="btn btn-ice js-buy" href="#" target="_blank" rel="noopener">Buy $BELL</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="tape" aria-label="Live tokenized stock prices">
+    <span class="tape-live"><span class="dot"></span>Live</span>
+    <div class="tape-view">
+      <div class="tape-track" id="tape"><span class="tape-item tape-wait">Loading prices</span></div>
+    </div>
+  </div>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="status"><span class="dot"></span><span id="status-text">Live on StonkFun</span></p>
+        <h1>Paid at the opening bell.</h1>
+        <p class="lede">Every trade on $BELL drops a fee into one pot. When Wall Street opens at 09:30 New York time, the pot buys the stock leading the board and sends it to everyone holding $BELL. Every weekday.</p>
+        <div class="cta-row">
+          <a class="btn btn-ice btn-lg js-buy" href="#" target="_blank" rel="noopener">Buy $BELL</a>
+          <button class="btn btn-ghost btn-lg" id="ring-btn" type="button">Ring the bell</button>
+        </div>
+        <p class="fine" id="local-bell">&nbsp;</p>
+      </div>
+
+      <div class="hero-dial">
+        <div class="dial" id="dial">
+          <svg id="dial-svg" viewBox="0 0 520 520" aria-hidden="true"></svg>
+          <div class="badge" id="badge">
+            <span class="ripples" id="ripples"></span>
+            <span class="badge-face"><svg class="bell-glyph"><use href="#bell"/></svg></span>
+          </div>
+          <div class="dial-center" aria-live="polite">
+            <p class="dc-label" id="dc-label">Next bell in</p>
+            <p class="countdown num" id="countdown">--:--:--</p>
+            <p class="dc-sub" id="dc-sub">09:30 in New York</p>
+            <span class="dc-rule"></span>
+            <p class="pot"><span class="pot-label">Pot</span><span class="pot-val num" id="pot">$0.00</span></p>
+            <p class="next" id="next-line">Reading the board</p>
+          </div>
+        </div>
+
+        <ul class="legend" aria-label="Dial legend">
+          <li><span class="sw sw-pot"></span>Pot filling since the last bell</li>
+          <li><span class="sw sw-open"></span>Wall Street open</li>
+          <li><span class="sw sw-chain"></span>Onchain only</li>
+        </ul>
+
+        <ol class="feed" id="feed" aria-label="Latest fees into the pot"></ol>
+        <p class="note" id="sim-note">Simulated pot on live stock prices.</p>
+      </div>
+    </section>
+
+    <section class="section how" id="how">
+      <h2>One pot. One bell. Every weekday.</h2>
+      <p class="sec-intro">Times are New York time. The dial above shows where the day is right now.</p>
+
+      <ol class="cycle">
+        <li>
+          <span class="when num">All day</span>
+          <h3>Trades fill the pot</h3>
+          <p>Every buy and sell of $BELL pays a fee. <span class="js-pot-share">80</span>% goes into the pot. <span class="js-burn-share">20</span>% buys $BELL back and burns it.</p>
+        </li>
+        <li>
+          <span class="when num">16:00 to 09:30</span>
+          <h3>The board forms overnight</h3>
+          <p>Wall Street closes, but tokenized stocks keep trading onchain. The stock with the best 24-hour move takes the lead.</p>
+        </li>
+        <li>
+          <span class="when num">09:30</span>
+          <h3>The bell rings</h3>
+          <p>The pot buys the leader on Jupiter and splits it across every holder by bag size. Then it starts filling again.</p>
+        </li>
+      </ol>
+
+      <div class="closed">
+        <p class="closed-text"><strong>No bell on weekends or market holidays.</strong> The pot keeps filling, so the next bell is bigger. Monday bells carry the whole weekend.</p>
+        <ul class="holidays" id="holidays" aria-label="Upcoming closed days"></ul>
+      </div>
+    </section>
+
+    <section class="section board" id="board">
+      <div class="sec-head">
+        <h2>The board</h2>
+        <p class="sec-intro">When the bell rings, the pot buys whichever stock is leading here. Prices come from Jupiter and refresh every 30 seconds.</p>
+      </div>
+
+      <div class="btable" role="table" aria-label="Tokenized stocks ranked by 24-hour move">
+        <div class="brow bhead" role="row">
+          <span role="columnheader" class="c-rank">#</span>
+          <span role="columnheader">Stock</span>
+          <span role="columnheader" class="c-r">Price</span>
+          <span role="columnheader" class="c-r">24h</span>
+          <span role="columnheader" class="c-bar">Move</span>
+        </div>
+        <div id="board-rows"></div>
+      </div>
+      <p class="board-status" id="board-status"><span class="dot dot-dim"></span><span>Loading prices</span></p>
+    </section>
+
+    <section class="section cut" id="cut">
+      <h2>Your cut</h2>
+      <p class="calc">
+        If you hold
+        <label class="sr-only" for="hold">Your $BELL holdings</label>
+        <input id="hold" class="num" type="text" inputmode="numeric" autocomplete="off" value="2,500,000">
+        $BELL, you own <b class="num" id="share">0.25%</b> of the supply. At the current pot, the next bell sends you <b class="num" id="per-units">–</b>, about <b class="num" id="per-usd">$0.00</b>.
+      </p>
+      <div class="chips" role="group" aria-label="Quick amounts">
+        <button type="button" class="chip" data-v="500000">500K</button>
+        <button type="button" class="chip" data-v="2500000">2.5M</button>
+        <button type="button" class="chip" data-v="10000000">10M</button>
+        <button type="button" class="chip" data-v="25000000">25M</button>
+      </div>
+      <p class="calc-sub">Five bells a week at this pot comes to about <b class="num" id="per-week">$0.00</b>. Real payouts follow real trading volume and can be smaller or larger.</p>
+    </section>
+
+    <section class="section rules" id="rules">
+      <h2>The rules</h2>
+      <dl class="spec">
+        <div><dt>Bell time</dt><dd>09:30 New York, Monday to Friday</dd></div>
+        <div><dt>Paid in</dt><dd>Tokenized stock, by bag size</dd></div>
+        <div><dt>What gets bought</dt><dd>The stock leading the board</dd></div>
+        <div><dt>Fees to the pot</dt><dd><span class="js-pot-share">80</span>%</dd></div>
+        <div><dt>Fees to buyback and burn</dt><dd><span class="js-burn-share">20</span>%</dd></div>
+        <div><dt>Paired with</dt><dd id="pair">SPYx</dd></div>
+      </dl>
+    </section>
+
+    <section class="end">
+      <p class="end-count"><span class="dot"></span>Next bell in <span class="num" id="end-countdown">--:--:--</span></p>
+      <h2 class="end-title">Paid at the opening bell.</h2>
+      <div class="cta-row">
+        <a class="btn btn-ice btn-lg js-buy" href="#" target="_blank" rel="noopener">Buy $BELL</a>
+        <a class="btn btn-ghost btn-lg" href="#board">See the board</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="foot-in">
+      <a class="brand brand-sm" href="#top" aria-label="Bell, back to top">
+        <span class="mark"><svg><use href="#bell"/></svg></span>
+        <span class="brand-name">Bell</span>
+      </a>
+      <p class="legal">$BELL is a memecoin. Holding it does not give you shares in any company or a claim on them, and payouts depend on trading volume. Stock prices shown come from onchain tokenized stocks. Nothing here is financial advice.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
