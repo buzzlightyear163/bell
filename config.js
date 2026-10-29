@@ -6,10 +6,10 @@ window.BELL = {
   ticker: "$BELL",
 
   // Contract address. Lämna tomt innan launch: CA-pillret i menyn döljs då.
-  ca: "B9gHowQujvhR1BeeFtfXVN89NBwg8R4nWid4sEC8MLuP",
+  ca: "HNjaoAzxQjBo6RumzYywYPSkVZSrrFcXYYvvRHV49n2n",
 
   // Var "Buy $BELL"-knapparna leder. Byt till coinens sida på StonkFun vid launch.
-  buyUrl: "https://www.stonkfun.xyz/token/B9gHowQujvhR1BeeFtfXVN89NBwg8R4nWid4sEC8MLuP",
+  buyUrl: "https://www.stonkfun.xyz/token/HNjaoAzxQjBo6RumzYywYPSkVZSrrFcXYYvvRHV49n2n",
 
   // X-kontot. Lämna tomt för att dölja X-knappen.
   xUrl: "",
